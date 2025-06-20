@@ -3,7 +3,7 @@ Sql Database queries
 mysql : create database TGC;
 
 // Create table
-create table users (
+mysql : create table users (
     id int not null auto_increment primary key,
     firstName varchar(200),
     lastName varchar(200),
