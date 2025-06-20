@@ -1,6 +1,7 @@
 Sql Database queries
 
 // Create Database
+
 mysql : create database TGC;
 
 // Create table
