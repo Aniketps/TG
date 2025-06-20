@@ -10,7 +10,7 @@ exports.userList = (req, res)=>{
 };
 
 exports.addUser = (req, res)=>{
-    res.render("adduser.ejs");
+    res.render("adduser.ejs", {msg : ""});
 }
 
 exports.newUser = (req, res)=>{
@@ -19,7 +19,7 @@ exports.newUser = (req, res)=>{
     let users = userdb.fetchAllUsers();
     promise.then((result)=>{
         users.then((r)=>{
-            res.render("users.ejs", {users : r});   
+            res.render("addUser.ejs", {msg : result});   
         }).catch((err)=>{
             res.send("Failed to add user"+err);
         });   
@@ -68,3 +68,36 @@ exports.updateuser = (req, res)=>{
         res.send("Failed to update user"+err);
     });
 }
+
+exports.searchEmail =(req, res)=>{
+    let email = req.query.e;
+    let user = userdb.searchEmail(email);
+    user.then((result)=>{
+        if(result.length > 0){
+            res.send(true);
+        }else{
+            res.send(false);
+        }
+    }).catch((err)=>{
+        res.send("Failed to update user"+err);
+    });
+};
+
+exports.searchName = (req, res)=>{
+    let name = req.query.n;
+    let user = userdb.searchName(name);
+    user.then((result)=>{
+        res.send(result);
+    }).catch((err)=>{
+        res.send("Failed to update user"+err);
+    });
+};
+
+exports.birthDay = (req, res)=>{
+    let user = userdb.fetchAllUsersBirth();
+    user.then((result)=>{
+        res.render("birthday.ejs", {users : result});
+    }).catch((err)=>{
+        res.send("Failed to update user"+err);
+    });
+};

@@ -14,35 +14,74 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            border: 1px solid black;
             width: 500px;
             height: 80%;
-            gap: 20px;
+            gap: 5px;
             margin: auto;
+            box-shadow: 1px 1px 3px blue;
             border-radius: 10px;
         }
-        input{
+        input, select{
             padding-left: 10px;
             width: 80%;
             height: 40px;
             border-radius: 10px;
-            border: 1px solid black;
             padding-right: 10px;
+            box-shadow: 1px 1px 3px blue;
+            border: none;
+        }
+        label{
+            width: 80%;
         }
     </style>
+    <script src="validations/userValidations.js"></script>
+    <script src="ajax/user.js"></script>
 </head>
 <body>
-    <form action="/newUser" method="post">
-        <h1>Add New User</h1>
-        <input type="text" name="firstName" id="firstName" placeholder="First Name">
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name">
-        <input type="date" name="birth" id="birth" placeholder="Birth Date">
-        <input type="text" name="address" id="address" placeholder="Address">
-        <input type="text" name="education" id="education" placeholder="Education">
-        <input type="text" name="hobbies" id="hobbies" placeholder="Hobbies">
-        <input type="text" name="email" id="email" placeholder="Email">
-        <input type="text" name="phone" id="phone" placeholder="Phone Number">
-        <input style="background-color: green; color: white;" type="submit">
+    <div
+        style="margin: auto; width: 80%; display: flex; flex-direction: row; align-items: center; justify-content: center   ; padding: 40px 0;">
+        <h1 style="letter-spacing: 5px;">NEW USER</h1>
+    </div>
+    <form action="/newUser" method="post" id="submitForm">
+        <input type="text" name="firstName" onkeyup="firstNameValidation(this.value)" id="firstName" placeholder="First Name" required>
+        <label for="firstNameStatus" id="firstNameStatus"></label>
+        <input type="text" name="lastName" id="lastName" onkeyup="lastNameValidation(this.value)" placeholder="Last Name" required>
+        <label for="lastNameStatus" id="lastNameStatus"></label>
+        <input type="date" name="birth" id="birth" placeholder="Birth Date" required>
+        <label for=""></label>
+        <input type="text" name="address" id="address" placeholder="Address" required>
+        <label for=""></label>
+        <select name="education" id="education" required>
+            <option value="">Select</option>
+            <option value="BE/B.Tech">BE/B.Tech</option>
+            <option value="ME/M.Tech">ME/M.Tech</option>
+            <option value="Diploma">Diploma</option>
+            <option value="BCA">BCA</option>
+            <option value="MCA">MCA</option>
+        </select>
+        <input type="text" name="hobbies" id="hobbies" onkeyup="hobbiesValidation(this.value)" placeholder="Hobbies" required>
+        <label for="hobbiesStatus" id="hobbiesStatus"></label>
+        <input type="text" onblur="emailValiadation(this.value)" onkeyup="emailExistance(this.value)" name="email" id="email" placeholder="Email">
+        <label for="emailStatus" id="emailStatus"></label>
+        <input type="text" name="phone" onkeyup="phoneValidation(this.value)" id="phone" placeholder="Phone Number">
+        <label for="phoneStatus" id="phoneStatus"></label>
+        <div style="width: 80%;display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px;">
+            <div style="height: 40px; width: 120px;display: flex; flex-direction: row; align-items: center; justify-content: center;color: white; background-color: green; border-radius: 10px;"><a type="" href="/" style="text-decoration: none; color: white;">Back</a></div>
+            <button style="background-color: green; color: white; width: 80%; height: 40px; border-radius: 10px;" type="button" onclick="submitButton()">Submit</button>
+        </div>
+        <%
+        if(msg != ""){
+            if(msg.affectedRows > 0){
+            %>
+            <label>User Added successfully</label>
+            <%
+            }else{
+              %>
+            <label>Failed to add new User, Please try again...</label>
+            <%  
+            }
+        }
+        %>
     </form>
 </body>
 </html>

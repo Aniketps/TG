@@ -25,6 +25,18 @@ exports.fetchAllUsers = ()=>{
     });
 }
 
+exports.fetchAllUsersBirth = ()=>{
+    return new Promise((resolve, reject)=>{
+        conn.query("select id, firstName, lastName, birth from users order by birth", [], (err, result)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+}
+
 exports.searchUser = (id)=>{
     return new Promise((resolve, reject)=>{
         conn.query("select * from users where id=?", [id], (err, result)=>{
@@ -60,3 +72,28 @@ exports.updateuser = (id, firstName, lastName, birth, address, education, hobbie
         });
     });
 }
+
+exports.searchEmail = (email)=>{
+    return new Promise((resolve, reject)=>{
+        conn.query("select * from users where email=?", [email], (err, result)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};
+
+exports.searchName = (name)=>{
+    return new Promise((resolve, reject)=>{
+        let Name = `%${name}%`;
+        conn.query("select * from users where firstName like ? or lastName like ?", [Name, Name], (err, result)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        });
+    });
+};

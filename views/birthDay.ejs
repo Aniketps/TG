@@ -58,12 +58,8 @@
 </head>
 <body>
     <div style="margin: auto; width: 80%; display: flex; flex-direction: row; align-items: center; justify-content: start; padding: 40px 0;">
-        <h1 style="letter-spacing: 5px;">USER MANAGEMENT</h1>
-    </div>
-    <div class="search">
-        <input onkeyup="searchEmployees()" type="text" name="searchEmployee" id="searchEmployee" placeholder="Search user...">
-        <button><a href="/addUser">Add new User</a></button>
-        <button style="width: 250px;"><a href="/birthDay">Check Upcoming BirthDays</a></button>
+        <button style="height: 40px; background-color: green; color: white; width: 100px; margin-right: 20px; border-radius: 15px;"><a style="text-decoration: none; color: white;" href="/">Back</a></button>
+        <h1 style="letter-spacing: 5px;">BIRTH DAY IS NEXT 7 DAYS</h1>
     </div>
     <div style="height: 20px;"></div>
     <table>
@@ -72,26 +68,38 @@
             <td>Sr no.</td>
             <td>First Name</td>
             <td>Last Name</td>
-            <td>Email</td>
-            <td>Phone no.</td>
-            <td>Delete</td>
+            <td>Birth day in next</td>
             <td>Profile</td>
         </tr>
         <tbody id="table">
         <%
         if(users.length != 0){
             users.forEach((row, index)=>{
-                %>
-                <tr>
-                    <td><%=index+1%></td>
-                    <td><%=row.firstName%></td>
-                    <td><%=row.lastName%></td>
-                    <td><%=row.email%></td>
-                    <td><%=row.phone%></td>
-                    <td><a href="/deleteuser?id=<%=row.id%>">Delete</a></td>
-                    <td><a href="/userProfile?id=<%=row.id%>">View</a></td>
-                </tr>
-                <%
+                let birth = new Date(row.birth);
+                let today = new Date();
+                if(birth.getMonth() == today.getMonth()){
+                    if(today.getDate()+7 > birth.getDate()){
+                        %>
+                        <tr>
+                            <td><%=index+1%></td>
+                            <td><%=row.firstName%></td>
+                            <td><%=row.lastName%></td>
+                            <%
+                            if(today.getDate() - birth.getDate() == 0){
+                                %>
+                                <td>🎉 Happy Birth Day</td>
+                                <%
+                            }else{
+                                %>
+                                <td><%=(birth.getDate() - today.getDate())%> Day</td>
+                                <%
+                            }
+                            %>
+                            <td><a href="/userProfile?id=<%=row.id%>">View</a></td>
+                        </tr>
+                        <%
+                    }
+                }
             })
         }else{
             %>
